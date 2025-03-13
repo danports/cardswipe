@@ -2,7 +2,7 @@ const cardSwipe = {
 
     cardSwipe: this,
     settings: {},
-    init: function (options){
+    init: function (options) {
         return cardSwipe.methods.init(options);
     },
 
@@ -157,12 +157,12 @@ const cardSwipe = {
         if (cardSwipe.settings.debug) { console.log("%s -> %s", cardSwipe.stateNames[cardSwipe.currentState], cardSwipe.stateNames[newState]); }
 
         // Raise events when entering and leaving the READING state
-        if (newState == cardSwipe.states.READING){
+        if (newState == cardSwipe.states.READING) {
             let event = new CustomEvent('scanstart.cardswipe');
             document.dispatchEvent(event);
         };
 
-        if (cardSwipe.currentState == cardSwipe.states.READING){
+        if (cardSwipe.currentState == cardSwipe.states.READING) {
             let event = new CustomEvent('scanend.cardswipe');
             document.dispatchEvent(event);
         };
@@ -319,7 +319,7 @@ const cardSwipe = {
                 }
                 // Look for ';'
                 if (e.which == 59) {
-                    cardSwipe. state(states.PENDING2);
+                    cardSwipe.state(states.PENDING2);
                     cardSwipe.scanbuffer = [];
                     cardSwipe.processCode(e.which);
                 }
@@ -371,14 +371,13 @@ const cardSwipe = {
             // Scan complete. Invoke callback
             if (cardSwipe.settings.success) { cardSwipe.settings.success.call(this, result); }
 
-            // Raise success event.
-            let event = new CustomEvent('success.cardswipe', { detail: { result }});
+            let event = new CustomEvent("success.cardswipe", { detail: { rawData, result } });
             document.dispatchEvent(event);
         }
         else {
             // All parsers failed.
             if (cardSwipe.settings.failure) { settings.failure.call(this, rawData); }
-            document.dispatchEvent("failure.cardswipe");
+            document.dispatchEvent(new CustomEvent("failure.cardswipe", { detail: { rawData } }));
         }
     },
 
@@ -410,7 +409,7 @@ const cardSwipe = {
         return null;
     },
 
-    bindOn: function(elm, evtName, handler) {
+    bindOn: function (elm, evtName, handler) {
         evtName.split('.').reduce(function (evtPart, evt) {
             evt = evt ? evt + '.' + evtPart : evtPart;
             elm.addEventListener(evt, handler, true);
@@ -418,7 +417,7 @@ const cardSwipe = {
         }, '');
     },
 
-    bindOff: function(elm, evtName, handler) {
+    bindOff: function (elm, evtName, handler) {
         evtName.split('.').reduce(function (evtPart, evt) {
             evt = evt ? evt + '.' + evtPart : evtPart;
             elm.removeEventListener(evt, handler, true);
@@ -502,12 +501,12 @@ const cardSwipe = {
                 }
 
                 cardSwipe.settings.prefixCodes = [];
-                for (let i in cardSwipe.settings.prefixCharacter){
+                for (let i in cardSwipe.settings.prefixCharacter) {
                     if (cardSwipe.settings.prefixCharacter[i].length != 1) {
                         throw 'prefixCharacter must be a single character';
                     }
                     // convert to character code
-                    settings.prefixCodes.push(this.charCodeAt(0));
+                    cardSwipe.settings.prefixCodes.push(this.charCodeAt(0));
                 }
             }
 
