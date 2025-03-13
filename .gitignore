@@ -1,11 +1,2 @@
-lib
-coverage
-dist/*.gz
-docs/_book
-test/e2e/report
-test/e2e/screenshots
+dist
 node_modules
-.DS_Store
-*.log
-*.swp
-*~
