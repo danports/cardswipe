@@ -1,7 +1,7 @@
 {
   "name": "@danports/cardswipe",
   "description": "Capture & parse data from magnetic stripe card readers.",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": {
     "name": "Dan Ports",
     "email": "danports@gmail.com"
@@ -10,10 +10,11 @@
     "url": "https://github.com/danports/cardswipe/issues"
   },
   "devDependencies": {
-    "vite": "^6.2.1"
+    "vite": "^6.2.1",
+    "vue": "^3.5.13"
   },
   "files": [
-    "dist/cardswipe.mjs",
+    "dist",
     "src"
   ],
   "homepage": "https://github.com/danports/cardswipe",
@@ -31,6 +32,7 @@
     "url": "https://github.com/danports/cardswipe.git"
   },
   "scripts": {
+    "dev": "vite",
     "build": "vite build"
   }
 }
