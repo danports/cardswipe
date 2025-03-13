@@ -1,7 +1,7 @@
 {
   "name": "@danports/cardswipe",
   "description": "Capture & parse data from magnetic stripe card readers.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": {
     "name": "Dan Ports",
     "email": "danports@gmail.com"

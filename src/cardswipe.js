@@ -362,21 +362,18 @@ const cardSwipe = {
         let rawData = cardSwipe.scanbuffer.join('');
 
         // Invoke rawData callback if defined, a testing hook.
-        if (cardSwipe.settings.rawDataCallback) { settings.rawDataCallback.call(this, rawData); }
+        if (cardSwipe.settings.rawDataCallback) { cardSwipe.settings.rawDataCallback.call(this, rawData); }
 
         let result = cardSwipe.parseData(rawData);
 
         if (result) {
-
             // Scan complete. Invoke callback
-            if (cardSwipe.settings.success) { cardSwipe.settings.success.call(this, result); }
-
-            let event = new CustomEvent("success.cardswipe", { detail: { rawData, result } });
-            document.dispatchEvent(event);
+            if (cardSwipe.settings.success) { cardSwipe.settings.success.call(this, result, rawData); }
+            document.dispatchEvent(new CustomEvent("success.cardswipe", { detail: { rawData, result } }));
         }
         else {
             // All parsers failed.
-            if (cardSwipe.settings.failure) { settings.failure.call(this, rawData); }
+            if (cardSwipe.settings.failure) { cardSwipe.settings.failure.call(this, rawData); }
             document.dispatchEvent(new CustomEvent("failure.cardswipe", { detail: { rawData } }));
         }
     },
@@ -497,16 +494,15 @@ const cardSwipe = {
                 // Check if prefix character is an array, if its not, convert
                 let isPrefixCharacterArray = Object.prototype.toString.call(cardSwipe.settings.prefixCharacter) === '[object Array]';
                 if (!isPrefixCharacterArray) {
-                    cardSwipe.settings.prefixCharacter = [settings.prefixCharacter];
+                    cardSwipe.settings.prefixCharacter = [cardSwipe.settings.prefixCharacter];
                 }
 
                 cardSwipe.settings.prefixCodes = [];
-                for (let i in cardSwipe.settings.prefixCharacter) {
-                    if (cardSwipe.settings.prefixCharacter[i].length != 1) {
+                for (let prefix of cardSwipe.settings.prefixCharacter) {
+                    if (prefix.length != 1) {
                         throw 'prefixCharacter must be a single character';
                     }
-                    // convert to character code
-                    cardSwipe.settings.prefixCodes.push(this.charCodeAt(0));
+                    cardSwipe.settings.prefixCodes.push(prefix.charCodeAt(0));
                 }
             }
 
